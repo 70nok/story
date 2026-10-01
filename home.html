@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if not current_category %}
+<section class="hero">
+    <div class="container hero-inner">
+        <div>
+            <span class="hero-tag">📚 قصص مجانية</span>
+            <h1>اقرأ، تخيل، <span>اسبح</span> في الخيال</h1>
+            <p>مكتبة قصص عربية متنوعة — مغامرات، خيال علمي، دراما، وأكثر</p>
+            <a href="#library" class="btn btn-primary">
+                <i class="fas fa-book"></i> تصفح المكتبة
+            </a>
+        </div>
+        <div class="hero-art">📖</div>
+    </div>
+</section>
+{% endif %}
+
+<section class="section" id="library">
+    <div class="container">
+
+        <div class="section-head">
+            {% if current_category %}
+                <h2><i class="fas fa-folder"></i> {{ current_category }}</h2>
+            {% else %}
+                <h2><i class="fas fa-star"></i> كل القصص</h2>
+            {% endif %}
+            <span class="count">{{ stories|length }} قصة</span>
+        </div>
+
+        {% if stories %}
+        <div class="stories-grid">
+            {% for s in stories %}
+            <div class="story-card">
+                <a href="/story/{{ s.id }}" class="story-cover">
+                    <img src="{{ s.cover }}" alt="{{ s.title }}" loading="lazy">
+                    <span class="story-category">{{ s.category }}</span>
+                </a>
+                <div class="story-body">
+                    <h3><a href="/story/{{ s.id }}">{{ s.title }}</a></h3>
+                    <p class="story-author">
+                        <i class="fas fa-pen-nib"></i> {{ s.author }}
+                    </p>
+                    <p class="story-desc">{{ s.description[:80] }}...</p>
+                    <div class="story-footer">
+                        <span class="story-rating">
+                            <i class="fas fa-star"></i> 4.8
+                        </span>
+                        <span class="story-reads">
+                            <i class="fas fa-book-open"></i> اقرأ
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-book-open"></i>
+            <h2>لا توجد قصص بعد</h2>
+            <p>سيتم إضافة القصص قريباً</p>
+            <a href="/" class="btn btn-primary">الرئيسية</a>
+        </div>
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}

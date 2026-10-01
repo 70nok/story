@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="reader-wrapper">
+
+    <div class="reader-topbar">
+        <a href="/story/{{ story.id }}" class="reader-back">
+            <i class="fas fa-arrow-right"></i> {{ story.title }}
+        </a>
+    </div>
+
+    <article class="reader-content">
+        <p class="reader-chapter-label">الفصل {{ chapter.chapter_num }}</p>
+        <h1 class="reader-title">{{ chapter.title }}</h1>
+
+        <div class="reader-text">
+            {% for para in chapter.content.split('\n\n') %}
+                {% if para.strip() %}
+                    <p>{{ para }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </article>
+
+    <div class="reader-nav">
+        {% if prev_id %}
+            <a href="/read/{{ prev_id }}" class="reader-nav-btn">
+                <i class="fas fa-chevron-right"></i> الفصل السابق
+            </a>
+        {% else %}
+            <span></span>
+        {% endif %}
+
+        <a href="/story/{{ story.id }}" class="reader-nav-btn center">
+            <i class="fas fa-list"></i> الفهرس
+        </a>
+
+        {% if next_id %}
+            <a href="/read/{{ next_id }}" class="reader-nav-btn next">
+                الفصل التالي <i class="fas fa-chevron-left"></i>
+            </a>
+        {% else %}
+            <a href="/story/{{ story.id }}" class="reader-nav-btn next">
+                <i class="fas fa-check-circle"></i> تمّت القصة
+            </a>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}
